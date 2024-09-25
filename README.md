@@ -1,14 +1,24 @@
-# Cam-Hackers README
+# Camsploit
 
 ## Overview
 
-This Python script, **Insecam_camsplot.py**, is designed to scrape publicly accessible IP camera URLs from the Insecam website based on a specified country code. The collected IP addresses are saved to a text file for later use. The script utilizes the `requests` library for making HTTP requests and `re` for regular expression matching.
+**Camsploit** is a Python-based tool that scrapes publicly accessible IP camera URLs from the Insecam website, allowing users to explore cameras from around the world based on a specified country code. The script provides an interactive way to view these camera streams, navigate through them, and save links for later use. Users can organize saved camera feeds into custom directories.
+
+This tool is for educational purposes only and should be used responsibly in compliance with all applicable laws regarding privacy and data access.
+
+## Features
+
+- **Scrape IP Camera Feeds**: Fetch public camera links from Insecam based on country codes.
+- **Interactive Viewer**: Browse through camera feeds in your browser with "next" and "back" navigation.
+- **Save and Organize Links**: Save camera feed links into user-specified folders for future access.
+- **Terminal-Based Navigation**: Easily view, browse, and organize camera streams via the terminal.
 
 ## Directory Structure
 
 ```
 camsploit/
-└── Insecam_camsplot.py
+├── Insecam_camsplot.py  # Core scraping logic
+└── viewer.py            # Interactive camera feed viewer
 ```
 
 ## Requirements
@@ -17,144 +27,120 @@ camsploit/
 - Required libraries:
   - `requests`
   - `colorama`
+  - `webbrowser` (part of Python standard library)
 
-You can install the required libraries using pip:
+Install the required libraries with:
 
 ```bash
-pip install requests colorama
+pip install -r requirements.txt
 ```
 
 ## How to Use
 
-1. **Clone the Repository** (if applicable):
-   ```bash
-   git clone https://github.com/AngelSecurityTeam/Cam-Hackers.git
-   cd camsploit
-   ```
+### 1. Clone the Repository
 
-2. **Run the Script**:
-   Execute the script from your terminal:
-   ```bash
-   python Insecam_camsplot.py
-   ```
+```bash
+git clone https://github.com/AngelSecurityTeam/Camsploit.git
+cd camsploit
+```
 
-3. **Input Country Code**:
-   The script will display a list of countries along with their codes. When prompted, enter the two-digit country code (e.g., `US` for the United States).
+### 2. Install Dependencies
 
-4. **Output**:
-   The script will save the found IP addresses to a file named `{country}.txt` (e.g., `US.txt`).
+Run the following command to install necessary Python packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Run the Scraping Script
+
+The core script, `Insecam_camsplot.py`, fetches camera feeds from Insecam based on the country code you provide. To run the script:
+
+```bash
+python Insecam_camsplot.py
+```
+
+### 4. Input Country Code
+
+After running the script, a list of country codes will be displayed. Enter the code corresponding to the country you want to scrape (e.g., `US` for the United States).
+
+```bash
+Code(##): US
+```
+
+The script will then scrape and display a list of IP camera URLs for that country and save them to a file named `<country_code>.txt` (e.g., `US.txt`).
+
+### 5. Viewing and Managing Camera Feeds
+
+Once the links are scraped, use the `viewer.py` script to interactively view, browse, and manage the camera feeds:
+
+```bash
+python viewer.py
+```
+
+- **Navigation**: Use `n` for next, `b` for back, and `q` to quit.
+- **View in Browser**: The selected camera feed will open in your default web browser.
+- **Saving Links**: Save specific camera links into a directory of your choice.
+
+### 6. Example Output
+
+After entering the country code, the tool will begin fetching IP camera links like so:
+
+```
+Fetching camera data for the United States...
+http://119.11.196.42:86
+http://36.66.133.249:80
+http://36.68.150.219:8082
+...
+Save File: US.txt
+```
+
+When using `viewer.py`:
+
+```
+Current link (1/10): http://119.11.196.42:86
+Opening http://119.11.196.42:86 in web browser...
+Enter 'n' for next, 'b' for back, 's' to save, 'q' to quit: n
+```
 
 ## Code Explanation
 
-### Imports and Initialization
+### `Insecam_camsplot.py`
 
-- **Imports**: The script imports necessary modules for HTTP requests, regular expressions, terminal color formatting, and random number generation.
-- **Colorama**: Initializes Colorama for colored terminal output.
+This script handles scraping IP camera URLs from Insecam:
+- **HTTP Requests**: Uses the `requests` library to fetch pages from Insecam.
+- **Country Codes**: Retrieves a list of country codes and their camera counts, displaying them for the user to choose from.
+- **Regex Matching**: Extracts camera URLs using regular expressions.
+- **File Output**: Saves camera URLs into a file named `<country_code>.txt`.
 
-### Setting Up Headers
+### `viewer.py`
 
-Headers are set up to mimic a web browser request to prevent potential blocking by the server:
+This script provides interactive functionality to view and manage the camera feeds:
+- **Browser Viewing**: Opens the camera feed in your default web browser.
+- **Navigation**: Browse through the links interactively.
+- **Saving**: Save the selected camera feed URL into a custom directory with a user-defined name.
 
-```python
-headers = CaseInsensitiveDict()
-headers["Accept"] = ...
-headers["User-Agent"] = ...
+## Example Directory Structure
+
+After running the scripts, your directory might look like this:
+
+```
+camsploit/
+├── Insecam_camsplot.py
+├── viewer.py
+├── US.txt                # Saved camera links from the United States
+└── saved_links/          # Directory created by the user to save specific links
 ```
 
-### Fetching Country Data
+## Notes and Disclaimer
 
-The script makes a GET request to Insecam to retrieve a list of countries and their associated codes:
+- This tool is intended for educational purposes only. Ensure you are following all applicable legal and ethical guidelines regarding privacy and the use of publicly accessible data.
+- The authors of **Camsploit** are not responsible for any misuse of this tool. Always respect privacy, and use the script responsibly.
 
-```python
-resp = requests.get(url, headers=headers)
-data = resp.json()
-countries = data['countries']
-```
+## License
 
-### Displaying Country Codes
-
-A colored ASCII art header is printed, followed by a list of countries and their codes:
-
-```python
-for key, value in countries.items():
-    print(f'Code : ({key}) - {value["country"]} / ({value["count"]})')
-```
-
-### Fetching IP Camera URLs
-
-1. **User Input**: Prompts the user to enter a country code.
-2. **Retrieve Camera Data**: The script fetches pages of IP camera data for the specified country.
-3. **Regular Expression Matching**: It uses regex to find camera URLs within the HTML response.
-4. **Saving Results**: IP addresses are saved to a file, and each is printed in the terminal.
-
-### Error Handling
-
-The script includes a try-except block to handle potential errors during requests or file operations. If an error occurs, it will simply skip to the final print statement.
-
-## Note
-
-This script is intended for educational purposes only. Use responsibly and ensure compliance with applicable laws and ethical standards regarding privacy and data access.
-
-## Disclaimer
-
-The authors do not endorse any illegal activities associated with the use of this script. Always respect privacy and legal boundaries.
-
-Here's a revised version of your instruction set for clarity and readability:
+[Include any license information here if applicable.]
 
 ---
 
-### Instructions to Run the Script
-
-1. **Clone the Repository**:
-   ```bash
-   git clone <repository-url>
-   ```
-
-2. **Load the Repository in a Codespace**:
-   Navigate to the cloned repository in your Codespace.
-
-3. **Install Required Packages**:
-   Run the following command to install the dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Run the Script**:
-   Execute the script with:
-   ```bash
-   python Insecam_camsplot.py
-   ```
-
-### Expected Output
-
-The script will display a list of country codes and their corresponding country names, for example:
-```
-   (                             (             )  
-   )\      )     )               )\     (   ( /(  
- (((_)  ( /(    (     (   `  )  ((_) (  )\  )\()) 
- )\___  )(_))   )\  ' )\  /(/(   _   )\((_)(_))/  
-((/ __|((_)_  _((_)) ((_)((_)_\ | | ((_)(_)| |_   
- | (__ / _` || '  \()(_-<| '_ \)| |/ _ \| ||  _|  
-  \___|\__,_||_|_|_| /__/| .__/ |_|\___/|_| \__|  
-                         
-   Infinidev Team 
-Code : (US) - United States / (968)
-Code : (JP) - Japan / (508)
-```
-
-5. **Input a Country Code**:
-   When prompted, type in the country code (e.g., `US` for the United States) to retrieve a list of camera links:
-   ```
-   Code(##): US
-   http://119.11.196.42:86
-   http://36.66.133.249:80
-   ...
-   ```
-
-6. **Output File**:
-   The script will save the camera links to a file named `<country_code>.txt`:
-   ```
-   Save File: US.txt
-   ```
-
----
+Let me know if you need any adjustments!
