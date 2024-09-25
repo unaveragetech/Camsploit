@@ -62,14 +62,20 @@ def open_in_browser(link):
     print(f"Opening {link} in web browser...")
     webbrowser.open(link)
 
-# Function to save the current link
+# Function to save the current link into a user-specified directory
 def save_link(link):
     folder = input("Enter folder name to save link (leave blank for current directory): ").strip()
-    if folder and not os.path.exists(folder):
-        os.makedirs(folder)
-    
+    if folder:
+        # If the folder doesn't exist, create it
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+            print(f"Directory '{folder}' created.")
+        else:
+            print(f"Saving in existing directory: {folder}")
+
+    # Ask the user to name the file
     file_name = input("Enter the name of the file (without extension): ").strip() + ".txt"
-    file_path = os.path.join(folder, file_name)
+    file_path = os.path.join(folder if folder else ".", file_name)
 
     with open(file_path, 'w') as f:
         f.write(link)
