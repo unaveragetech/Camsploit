@@ -99,7 +99,62 @@ This script is intended for educational purposes only. Use responsibly and ensur
 
 The authors do not endorse any illegal activities associated with the use of this script. Always respect privacy and legal boundaries.
 
-clone the repo 
-load it in a code space 
-run this command pip install -r requirements.txt
-the run this command 
+Here's a revised version of your instruction set for clarity and readability:
+
+---
+
+### Instructions to Run the Script
+
+1. **Clone the Repository**:
+   ```bash
+   git clone <repository-url>
+   ```
+
+2. **Load the Repository in a Codespace**:
+   Navigate to the cloned repository in your Codespace.
+
+3. **Install Required Packages**:
+   Run the following command to install the dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Run the Script**:
+   Execute the script with:
+   ```bash
+   python Insecam_camsplot.py
+   ```
+
+### Expected Output
+
+The script will display a list of country codes and their corresponding country names, for example:
+```
+   (                             (             )  
+   )\      )     )               )\     (   ( /(  
+ (((_)  ( /(    (     (   `  )  ((_) (  )\  )\()) 
+ )\___  )(_))   )\  ' )\  /(/(   _   )\((_)(_))/  
+((/ __|((_)_  _((_)) ((_)((_)_\ | | ((_)(_)| |_   
+ | (__ / _` || '  \()(_-<| '_ \)| |/ _ \| ||  _|  
+  \___|\__,_||_|_|_| /__/| .__/ |_|\___/|_| \__|  
+                         
+   Infinidev Team 
+Code : (US) - United States / (968)
+Code : (JP) - Japan / (508)
+```
+
+5. **Input a Country Code**:
+   When prompted, type in the country code (e.g., `US` for the United States) to retrieve a list of camera links:
+   ```
+   Code(##): US
+   http://119.11.196.42:86
+   http://36.66.133.249:80
+   ...
+   ```
+
+6. **Output File**:
+   The script will save the camera links to a file named `<country_code>.txt`:
+   ```
+   Save File: US.txt
+   ```
+
+---
