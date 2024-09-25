@@ -98,3 +98,8 @@ This script is intended for educational purposes only. Use responsibly and ensur
 ## Disclaimer
 
 The authors do not endorse any illegal activities associated with the use of this script. Always respect privacy and legal boundaries.
+
+clone the repo 
+load it in a code space 
+run this command pip install -r requirements.txt
+the run this command 
