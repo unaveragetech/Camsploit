@@ -1,11 +1,10 @@
 import os
-import subprocess
+import webbrowser
 
 # Function to automatically detect the most recent 'country.txt' file in the directory
 def find_latest_ip_file():
     files = [f for f in os.listdir() if f.endswith('.txt')]
     if files:
-        # Get the latest file by modification time
         latest_file = max(files, key=os.path.getmtime)
         print(f"Automatically detected file: {latest_file}")
         return latest_file
@@ -37,7 +36,7 @@ def navigate_links(links):
         # Ask if user wants to view the feed
         view_feed = input("Do you want to view this feed? (y/n): ").strip().lower()
         if view_feed == 'y':
-            stream_feed(current_link)
+            open_in_browser(current_link)
         
         command = input("Enter 'n' for next, 'b' for back, 's' to save, 'q' to quit: ").strip().lower()
 
@@ -58,14 +57,10 @@ def navigate_links(links):
         else:
             print("Invalid command. Try again.")
 
-# Function to display the camera feed using mpv (or ffmpeg)
-def stream_feed(link):
-    try:
-        print(f"Streaming from {link}...")
-        # Using mpv to display the stream in the terminal
-        subprocess.run(['mpv', link])
-    except FileNotFoundError:
-        print("mpv is not installed. Please install it to view feeds in the terminal.")
+# Function to open the stream in the browser
+def open_in_browser(link):
+    print(f"Opening {link} in web browser...")
+    webbrowser.open(link)
 
 # Function to save the current link
 def save_link(link):
