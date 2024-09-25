@@ -1,17 +1,22 @@
-# Camsploit README
+# Cam-Hackers README
 
 ## Overview
 
+This Python script, **Insecam_camsplot.py**, is designed to scrape publicly accessible IP camera URLs from the Insecam website based on a specified country code. The collected IP addresses are saved to a text file for later use. The script utilizes the `requests` library for making HTTP requests and `re` for regular expression matching.
+
+## Directory Structure
+
 ```
-This Python script is designed to scrape publicly accessible IP camera URLs from the Insecam website based on a specified country code. The collected IP addresses are saved to a text file for later use. The script utilizes the `requests` library to make HTTP requests and `re` for regular expression matching.
+camsploit/
+└── Insecam_camsplot.py
 ```
+
 ## Requirements
 
-- Python 3.x
+- **Python 3.x**
 - Required libraries:
   - `requests`
   - `colorama`
-  - - `Random`--May cause an error if so omit it from req.txt with #random or just deleting it 
 
 You can install the required libraries using pip:
 
@@ -24,13 +29,13 @@ pip install requests colorama
 1. **Clone the Repository** (if applicable):
    ```bash
    git clone https://github.com/AngelSecurityTeam/Cam-Hackers.git
-   cd Cam-Hackers
+   cd camsploit
    ```
 
 2. **Run the Script**:
    Execute the script from your terminal:
    ```bash
-   python cam_hackers.py
+   python Insecam_camsplot.py
    ```
 
 3. **Input Country Code**:
