@@ -11,7 +11,7 @@ This Python script is designed to scrape publicly accessible IP camera URLs from
 - Required libraries:
   - `requests`
   - `colorama`
-  - - `Random`
+  - - `Random`--May cause an error if so omit it from req.txt with #random or just deleting it 
 
 You can install the required libraries using pip:
 
