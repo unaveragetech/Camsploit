@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 # github.com/AngelSecurityTeam/Cam-Hackers
 
+from pipin import install_requirements
+install_requirements()
+
 import requests
 import re
 import colorama
