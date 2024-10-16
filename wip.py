@@ -5,6 +5,8 @@ install_requirements()
 # -*- coding: utf-8 -*-
 # Professional quality webcam URL gatherer with enhanced features
 
+import os
+from collections import defaultdict
 import requests
 import logging
 from bs4 import BeautifulSoup
@@ -90,23 +92,48 @@ def open_in_browser(link):
 
 # Function to categorize and save webcam URLs
 def save_urls_by_category(webcam_links):
-    categories = {"Nature": [], "City": [], "Traffic": []}  # Example categories
-    for link in webcam_links:
-        # Simple categorization based on URL content (adjust as needed)
-        if "nature" in link:
-            categories["Nature"].append(link)
-        elif "city" in link:
-            categories["City"].append(link)
-        else:
-            categories["Traffic"].append(link)
+    categories = defaultdict(list)  # Use defaultdict for automatic list creation
+    previously_found_files = set(os.listdir())  # Get existing files in the current directory
 
-    # Save categorized URLs to separate files
+    # Categorize links based on URL content
+    for link in webcam_links:
+        link_lower = link.lower()
+
+        # Categorization logic
+        if "nature" in link_lower:
+            category = "Nature"
+        elif "city" in link_lower:
+            category = "City"
+        elif "traffic" in link_lower:
+            category = "Traffic"
+        elif "street" in link_lower:
+            category = "Street"
+        else:
+            category = "Other"  # Fallback category
+
+        # Add the link to the corresponding category
+        categories[category].append(link)
+
+    # Sort links within each category based on filename word occurrence
     for category, links in categories.items():
         if links:
-            with open(f'{category.lower()}_webcams.txt', 'w') as file:
-                for webcam_url in links:
-                    file.write(webcam_url + '\n')
-            logging.info(f"{category} webcams saved to {category.lower()}_webcams.txt.")
+            # Sort links based on the occurrence of words in the filename
+            links.sort(key=lambda x: sum(x.lower().count(word) for word in os.path.basename(x).split('-')), reverse=True)
+            
+            num_links = len(links)
+            subcategory = f"{category} ({num_links} links)"
+            file_name = f'{subcategory.lower().replace(" ", "_")}_webcams.txt'
+
+            # Save categorized URLs to separate files only if they're new
+            if file_name not in previously_found_files:
+                with open(file_name, 'w') as file:
+                    for webcam_url in links:
+                        file.write(webcam_url + '\n')
+                logging.info(f"{subcategory} webcams saved to {file_name}.")
+            else:
+                logging.info(f"{subcategory} webcams already saved in {file_name}, skipping.")
 
 if __name__ == "__main__":
-    scrape_webcams()
+    webcam_links = []  
+    scrape_webcams()  
+    save_urls_by_category(webcam_links)
